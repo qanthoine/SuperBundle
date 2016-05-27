@@ -1,0 +1,3 @@
+super_homepage:
+    path:     /
+    defaults: { _controller: SuperBundle:Default:index }

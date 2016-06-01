@@ -1,0 +1,28 @@
+{% extends 'SuperBundle::adminpanel.html.twig' %}
+{% block title %}Custom Pages{% endblock %}
+{% block body %}
+        <h1>List of Custom Pages</h1>
+    {% for flashMessage in app.session.flashbag.get('notice') %}
+        <div class="flash">
+            <font color="green"> {{ flashMessage }}</font>
+        </div>
+    {% endfor %}
+    <table border="1px">
+        <tr>
+            <th>Title :</th>
+            <th>Slug :</th>
+            <th>Action :</th>
+        </tr>
+    {% for listPages in listPages %}
+        <tr>
+            <td>{{ listPages.title }}</td>
+            <td>{{ listPages.slug }}</td>
+            <td><a href="{{ path('super_page', {'slug': listPages.slug } ) }}"><input type="button" value="View"></a><a href="{{ path('super_admin_modify', {'id': listPages.id } ) }}"><input type="button" value="Edit"></a><a href="{{ path('super_admin_delete', {'id': listPages.id } ) }}"><input type="button" value="Delete"></a></td>
+        </tr>
+    {% endfor %}
+    </table>
+    <div class="warning"><font color="orange">Press on the delete button, it will not be possible to go back</font color></div>
+    <br>
+    <a href="{{ path('super_admin_add') }}"><input type="button" value="Create New Page"></a>
+{% endblock %}
+

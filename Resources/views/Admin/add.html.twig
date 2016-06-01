@@ -1,0 +1,33 @@
+{% extends 'SuperBundle::adminpanel.html.twig' %}
+{% block title %}New Page{% endblock %}
+{% block body %}
+    <div>
+        {{ form_start(form) }}
+        <div>
+            <div>
+                {{ form_label(form.title) }}
+            </div>
+            <div>
+                {{ form_errors(form.title) }}
+                {{ form_widget(form.title) }}
+            </div>
+        </div>
+        <div>
+            <div>
+                {{ form_label(form.content, "Content") }}
+            </div>
+            <div>
+                {{ form_errors(form.content) }}
+                {{ form_widget(form.content) }}
+            </div>
+        </div>
+        <div>
+            {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'} }) }}
+        </div>
+        {{ form_end(form)}}
+    </div>
+{% endblock %}
+{% block javascripts %}
+    <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+    <script>tinymce.init({ selector:'textarea' });</script>
+{% endblock %}

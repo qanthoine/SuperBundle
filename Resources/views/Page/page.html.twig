@@ -1,0 +1,7 @@
+{% extends 'SuperBundle::pagespanel.html.twig' %}
+{% block title %}{{ pages.title }}{% endblock %}
+{% block body %}
+<div class="raw">
+    {{ pages.content|raw }}
+</div>
+{% endblock %}

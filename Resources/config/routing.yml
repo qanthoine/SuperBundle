@@ -1,3 +1,22 @@
 super_homepage:
     path:     /
     defaults: { _controller: SuperBundle:Default:index }
+super_admin:
+    path:     /admin
+    defaults: { _controller: SuperBundle:Admin:index }
+super_admin_add:
+    path:     /admin/add
+    defaults: { _controller: SuperBundle:Admin:add }
+super_admin_delete:
+    path:     /admin/delete/{id}
+    defaults: { _controller: SuperBundle:Admin:delete }
+    requirements:
+        id: \d+
+super_admin_modify:
+    path:     /admin/modify/{id}
+    defaults: { _controller: SuperBundle:Admin:modify }
+    requirements:
+        id: \d+
+super_page:
+    path:     /page/{slug}
+    defaults: { _controller: SuperBundle:Pages:index }

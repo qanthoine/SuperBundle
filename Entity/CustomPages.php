@@ -82,8 +82,8 @@ class CustomPages
      *
      * @param string $slug
      *
+     * @ORM\PreUpdate
      * @ORM\PrePersist
-     *
      * @return CustomPages
      */
     public function setSlug()

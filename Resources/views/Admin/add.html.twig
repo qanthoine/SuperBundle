@@ -1,15 +1,16 @@
 {% extends 'SuperBundle::adminpanel.html.twig' %}
 {% block title %}New Page{% endblock %}
 {% block body %}
-    <div>
+    <h1>New Page</h1>
+    <div class="formulaire">
         {{ form_start(form) }}
         <div>
             <div>
                 {{ form_label(form.title) }}
             </div>
-            <div>
+            <div class="title_input">
                 {{ form_errors(form.title) }}
-                {{ form_widget(form.title) }}
+                {{ form_widget(form.title, { 'attr': { 'maxlength' : 40, 'size' : 40 } })  }}
             </div>
         </div>
         <div>
@@ -22,7 +23,8 @@
             </div>
         </div>
         <div>
-            {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'} }) }}
+            <br>
+            {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'} }) }} <input type="button" onclick='window.location.reload(false)' value="Reset"/>
         </div>
         {{ form_end(form)}}
     </div>

@@ -56,8 +56,27 @@ class AdminController extends Controller
         $listPages = $em->getRepository('SuperBundle:CustomPages')->findAll();
         return $this->redirect($this->generateUrl('super_admin', array('listPages' => $listPages)));
     }
-    public function modifyAction()
+    public function modifyAction($id, Request $request)
     {
-        return $this->render('SuperBundle:Admin:modify.html.twig');
+        $em = $this->getDoctrine()->getManager();
+        $pages = $em->getRepository('SuperBundle:CustomPages')->find($id);
+        if(!$pages)
+        {
+            throw new NotFoundHttpException("Page not found");
+        }
+        $formBuilder = $this->get('form.factory')->createBuilder(FormType::class, $pages);
+        $formBuilder
+            ->add('title',TextType::class)
+            ->add('content',TextareaType::class, array("required"=>false))
+            ->add('save', SubmitType::class);
+        $form = $formBuilder->getForm();
+        $form->handleRequest($request);
+        if ($form->isValid())
+        {
+            $em->flush();
+            $request->getSession()->getFlashBag()->add('notice', 'The page has been successfully edited !');
+            return $this->redirect($this->generateUrl('super_admin'));
+        }
+        return $this->render('SuperBundle:Admin:modify.html.twig', array('form' => $form->createView(),'id' => $id, 'pageinfo' => $pages));
     }
 }

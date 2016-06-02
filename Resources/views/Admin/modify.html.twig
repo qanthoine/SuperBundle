@@ -1,1 +1,36 @@
-Hello World! modify
+{% extends 'SuperBundle::adminpanel.html.twig' %}
+{% block title %}New Page{% endblock %}
+{% block body %}
+    <h1>Edit Page</h1>
+    <div class="formulaire">
+        {{ form_start(form) }}
+        <div>
+            <div>
+                {{ form_label(form.title) }}
+            </div>
+            <div class="title_input">
+                {{ form_errors(form.title) }}
+                {{ form_widget(form.title, { 'attr': { 'maxlength' : 40, 'size' : 40, 'value': pageinfo.title } })  }}
+            </div>
+        </div>
+        <div>
+            <div>
+                {{ form_label(form.content, "Content") }}
+            </div>
+            <div>
+                {{ form_errors(form.content) }}
+                {{ form_widget(form.content) }}
+            </div>
+        </div>
+        <div>
+            <br>
+            {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'} }) }} <input type="button" onclick='window.location.reload(false)' value="Reset"/>
+        </div>
+        {{ form_end(form)}}
+    </div>
+{% endblock %}
+{% block javascripts %}
+    <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+    <script>tinymce.init({ selector:'textarea' });</script>
+{% endblock %}
+

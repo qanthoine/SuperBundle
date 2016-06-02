@@ -1,0 +1,53 @@
+table
+{
+    text-align: center;
+    border-collapse: collapse;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px ;
+    margin-bottom: 20px ;
+}
+td, th /* Mettre une bordure sur les td ET les th */
+{
+    border: 1px solid black;
+    padding : 8px;
+}
+body
+{
+    background-color: #E0F2F7;
+    text-align: center;
+}
+.flash
+{
+    color: darkgreen;
+    border: 2px solid black;
+    font-size: 20px;
+    font-weight: bold;
+    max-width: 40%;
+    padding: 5px;
+    margin: 15px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px ;
+    margin-bottom: 20px ;
+}
+.warning
+{
+    color: orangered;
+    border: 2px solid black;
+    font-size: 15px;
+    font-weight: bold;
+    max-width: 40%;
+    padding: 5px;
+    margin: 15px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px ;
+    margin-bottom: 20px ;
+}
+.formulaire
+{
+    max-width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+}

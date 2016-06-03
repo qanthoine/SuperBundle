@@ -24,7 +24,7 @@ class CustomPages
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank()
      * @ORM\Column(name="title", type="string", length=30, unique=true)
      */
     private $title;
@@ -38,7 +38,7 @@ class CustomPages
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank()
      * @ORM\Column(name="content", type="text")
      */
     private $content;

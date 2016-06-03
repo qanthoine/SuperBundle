@@ -20,3 +20,6 @@ super_admin_modify:
 super_page:
     path:     /page/{slug}
     defaults: { _controller: SuperBundle:Pages:index }
+super_admin_seconde:
+    path:     /admin/
+    defaults: { _controller: SuperBundle:Admin:index }

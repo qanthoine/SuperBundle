@@ -12,13 +12,15 @@
             <tr>
                 <th>Title :</th>
                 <th>Slug :</th>
+                <th>Category :</th>
                 <th>Action :</th>
             </tr>
         {% for listPages in listPages %}
            <tr>
                 <td>{{ listPages.title }}</td>
                 <td>{{ listPages.slug }}</td>
-                <td><a href="{{ path('super_page', {'slug': listPages.slug } ) }}"><input type="button" value="View"></a>     <a href="{{ path('super_admin_modify', {'id': listPages.id } ) }}"><input type="button" value="Edit"></a>     <a href="{{ path('super_admin_delete', {'id': listPages.id } ) }}"><input type="button" value="Delete"></a></td>
+                <td>{{ listPages.categorie.name }}</td>
+                <td><a href="{{ path('super_page', {'slug': listPages.slug, 'categorie': listPages.categorie.slug} ) }}"><input type="button" value="View"></a>     <a href="{{ path('super_admin_modify', {'id': listPages.id } ) }}"><input type="button" value="Edit"></a>     <a href="{{ path('super_admin_delete', {'id': listPages.id } ) }}"><input type="button" value="Delete"></a></td>
            </tr>
         {% endfor %}
         </table>

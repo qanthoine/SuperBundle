@@ -2,6 +2,7 @@
 
 namespace SuperBundle\Controller;
 
+use SuperBundle\Entity\Categorie;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use FOS\UserBundle\Model\UserInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -10,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Httpfoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -28,6 +30,10 @@ class AdminController extends Controller
         $formBuilder
             ->add('title',TextType::class)
             ->add('content',TextareaType::class, array("required"=>false))
+            ->add('categorie', EntityType::class, array(
+                'class'        => 'SuperBundle:Categorie',
+                'choice_label' => 'name',
+            ))
             ->add('save', SubmitType::class);
         $form = $formBuilder->getForm();
         $form->handleRequest($request);
@@ -68,6 +74,10 @@ class AdminController extends Controller
         $formBuilder
             ->add('title',TextType::class)
             ->add('content',TextareaType::class, array("required"=>false))
+            ->add('categorie', EntityType::class, array(
+                'class'        => 'SuperBundle:Categorie',
+                'choice_label' => 'name',
+            ))
             ->add('save', SubmitType::class);
         $form = $formBuilder->getForm();
         $form->handleRequest($request);
@@ -78,5 +88,25 @@ class AdminController extends Controller
             return $this->redirect($this->generateUrl('super_admin'));
         }
         return $this->render('SuperBundle:Admin:modify.html.twig', array('form' => $form->createView(),'id' => $id, 'pageinfo' => $pages));
+    }
+    public function addcatAction(Request $request)
+    {
+        $categorie = new Categorie();
+        $formBuilder = $this->get('form.factory')->createBuilder(FormType::class, $categorie);
+        $formBuilder
+            ->add('name',TextType::class)
+            ->add('save', SubmitType::class);
+        $form = $formBuilder->getForm();
+        $form->handleRequest($request);
+        if ($form->isValid())
+        {
+            $em = $this->getDoctrine()->getManager();
+
+            $em->persist($categorie);
+            $em->flush();
+            $request->getSession()->getFlashBag()->add('notice', 'The categorie has been successfully created !');
+            return $this->redirect($this->generateUrl('super_admin'));
+        }
+        return $this->render('SuperBundle:Admin:addcategorie.html.twig', array('form' => $form->createView()));
     }
 }

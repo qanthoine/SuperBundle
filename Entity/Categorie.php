@@ -3,16 +3,15 @@
 namespace SuperBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * CustomPages
+ * Categorie
  *
- * @ORM\Table(name="custom_pages")
- * @ORM\Entity(repositoryClass="SuperBundle\Repository\CustomPagesRepository")
+ * @ORM\Table(name="categorie")
+ * @ORM\Entity(repositoryClass="SuperBundle\Repository\CategorieRepository")
  * @ORM\HasLifecycleCallbacks()
  */
-class CustomPages
+class Categorie
 {
     /**
      * @var int
@@ -25,10 +24,10 @@ class CustomPages
 
     /**
      * @var string
-     * @Assert\NotBlank()
-     * @ORM\Column(name="title", type="string", length=30, unique=true)
+     *
+     * @ORM\Column(name="name", type="string", length=255, unique=true)
      */
-    private $title;
+    private $name;
 
     /**
      * @var string
@@ -37,17 +36,6 @@ class CustomPages
      */
     private $slug;
 
-    /**
-     * @var string
-     * @Assert\NotBlank()
-     * @ORM\Column(name="content", type="text")
-     */
-    private $content;
-    /**
-     * @var int
-     * @ORM\ManyToOne(targetEntity="SuperBundle\Entity\Categorie", cascade={"persist"})
-     */
-    private $categorie;
 
     /**
      * Get id
@@ -60,27 +48,27 @@ class CustomPages
     }
 
     /**
-     * Set title
+     * Set name
      *
-     * @param string $title
+     * @param string $name
      *
-     * @return CustomPages
+     * @return Categorie
      */
-    public function setTitle($title)
+    public function setName($name)
     {
-        $this->title = $title;
+        $this->name = $name;
 
         return $this;
     }
 
     /**
-     * Get title
+     * Get name
      *
      * @return string
      */
-    public function getTitle()
+    public function getName()
     {
-        return $this->title;
+        return $this->name;
     }
 
     /**
@@ -90,7 +78,7 @@ class CustomPages
      *
      * @ORM\PreUpdate
      * @ORM\PrePersist
-     * @return CustomPages
+     * @return Categorie
      */
     public function setSlug()
     {
@@ -112,7 +100,7 @@ class CustomPages
             "ý" => "y", "ÿ" => "y", "(" => "", ")" => "",
             "!" => "", "?" => "", "¿" => "", "¡" => "",
             "," => "", ":" => "", ";" => "", "'" => "-", " " => "-"); // Formatage #1
-        $pre_slug = strtolower(strtr($this->getTitle(), $caracs));
+        $pre_slug = strtolower(strtr($this->getName(), $caracs));
         $caracs_s = array("--" => "-"); // Casse double tiret
         $slug = strtr($pre_slug, $caracs_s);
         $this->slug = $slug;
@@ -128,54 +116,6 @@ class CustomPages
     public function getSlug()
     {
         return $this->slug;
-    }
-
-    /**
-     * Set content
-     *
-     * @param string $content
-     *
-     * @return CustomPages
-     */
-    public function setContent($content)
-    {
-        $this->content = $content;
-
-        return $this;
-    }
-
-    /**
-     * Get content
-     *
-     * @return string
-     */
-    public function getContent()
-    {
-        return $this->content;
-    }
-
-    /**
-     * Set categorie
-     *
-     * @param integer $cat_id
-     *
-     * @return CustomPages
-     */
-    public function setCategorie($categorie)
-    {
-        $this->categorie = $categorie;
-
-        return $this;
-    }
-
-    /**
-     * Get categorie
-     *
-     * @return integer
-     */
-    public function getCategorie()
-    {
-        return $this->categorie;
     }
 }
 

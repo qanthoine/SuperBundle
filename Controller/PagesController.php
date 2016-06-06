@@ -19,10 +19,11 @@ class PagesController extends Controller
 		{
 			throw new NotFoundHttpException("Page not found");
 		}
+		$categorie = $pages->getCategorie()->getName();
 
 
 		return $this->render(
 			"SuperBundle:Page:page.html.twig",
-			array('slug' => $slug, 'pages' => $pages));
+			array('slug' => $slug, 'pages' => $pages, 'categorie' => $categorie));
     }
 }

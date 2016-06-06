@@ -7,6 +7,9 @@ super_admin:
 super_admin_add:
     path:     /admin/add
     defaults: { _controller: SuperBundle:Admin:add }
+super_admin_addcat:
+    path:     /admin/addcat
+    defaults: { _controller: SuperBundle:Admin:addcat }
 super_admin_delete:
     path:     /admin/delete/{id}
     defaults: { _controller: SuperBundle:Admin:delete }
@@ -18,7 +21,7 @@ super_admin_modify:
     requirements:
         id: \d+
 super_page:
-    path:     /page/{slug}
+    path:     /page/{categorie}/{slug}
     defaults: { _controller: SuperBundle:Pages:index }
 super_admin_seconde:
     path:     /admin/

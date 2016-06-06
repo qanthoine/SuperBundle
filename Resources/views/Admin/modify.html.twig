@@ -10,7 +10,7 @@
             </div>
             <div class="title_input">
                 {{ form_errors(form.title) }}
-                {{ form_widget(form.title, { 'attr': { 'maxlength' : 40, 'size' : 40, 'value': pageinfo.title } })  }}
+                {{ form_widget(form.title, { 'attr': { 'maxlength' : 30, 'size' : 40, 'value': pageinfo.title } })  }}
             </div>
         </div>
         <div>
@@ -20,6 +20,15 @@
             <div>
                 {{ form_errors(form.content) }}
                 {{ form_widget(form.content) }}
+            </div>
+        </div>
+        <div>
+            <div>
+                {{ form_label(form.categorie, "Category") }}
+            </div>
+            <div>
+                {{ form_errors(form.categorie) }}
+                {{ form_widget(form.categorie) }}
             </div>
         </div>
         <div>

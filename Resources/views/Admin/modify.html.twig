@@ -37,6 +37,29 @@
         </div>
         {{ form_end(form)}}
     </div>
+    <h1>Versionning</h1>
+    <div class="list">
+        <table>
+            <tr>
+                <th>Title :</th>
+                <th>Slug :</th>
+                <th>Category :</th>
+                <th>Date :</th>
+                <th>Type :</th>
+                <th>Action :</th>
+            </tr>
+            {% for version in version %}
+                <tr>
+                    <td>{{ version.title }}</td>
+                    <td>{{ version.slug }}</td>
+                    <td>{{ version.categorie.name }}</td>
+                    <td>{{ version.date|date("d/m/Y") }}</td>
+                    <td>{{ version.type }}</td>
+                    <td><a href="{{ path('super_page_review', {'id': version.id} ) }}"><input type="button" value="Review"></a> <a href="{{ path('super_page_restore', {'id': version.id } ) }}"><input type="button" value="Restore"></a> <a href="{{ path('super_page_delete', {'id': version.id} ) }}"><input type="button" value="Delete"></a></td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
 {% endblock %}
 {% block javascripts %}
     <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>

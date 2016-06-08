@@ -6,13 +6,13 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * CustomPages
+ * Versionnement
  *
- * @ORM\Table(name="custom_pages")
- * @ORM\Entity(repositoryClass="SuperBundle\Repository\CustomPagesRepository")
+ * @ORM\Table(name="versionnement")
+ * @ORM\Entity(repositoryClass="SuperBundle\Repository\VersionnementRepository")
  * @ORM\HasLifecycleCallbacks()
  */
-class CustomPages
+class Versionnement
 {
     /**
      * @var int
@@ -20,21 +20,27 @@ class CustomPages
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\ManyToOne(targetEntity="SuperBundle\Entity\Versionnement")
      */
     private $id;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(name="page_id", type="integer")
+     */
+    private $pageId;
+
+    /**
      * @var string
-     * @Assert\NotBlank()
-     * @ORM\Column(name="title", type="string", length=30, unique=true)
+     *
+     * @ORM\Column(name="title", type="string", length=30)
      */
     private $title;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="slug", type="string", length=255, unique=true)
+     * @ORM\Column(name="slug", type="string", length=255)
      */
     private $slug;
 
@@ -45,10 +51,30 @@ class CustomPages
      */
     private $content;
     /**
-     * @var int
+     * @var \SuperBundle\Entity\Categorie
      * @ORM\ManyToOne(targetEntity="SuperBundle\Entity\Categorie", cascade={"persist"}))
      */
     private $categorie;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date", type="datetime")
+     */
+    private $date;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="type", type="string")
+     */
+    private $type;
+
+    public function __construct()
+    {
+        $this->date = new \DateTime();
+    }
+
 
     /**
      * Get id
@@ -61,11 +87,35 @@ class CustomPages
     }
 
     /**
+     * Set pageId
+     *
+     * @param integer $pageId
+     *
+     * @return Versionnement
+     */
+    public function setPageId($pageId)
+    {
+        $this->pageId = $pageId;
+
+        return $this;
+    }
+
+    /**
+     * Get pageId
+     *
+     * @return int
+     */
+    public function getPageId()
+    {
+        return $this->pageId;
+    }
+
+    /**
      * Set title
      *
      * @param string $title
      *
-     * @return CustomPages
+     * @return Versionnement
      */
     public function setTitle($title)
     {
@@ -88,12 +138,11 @@ class CustomPages
      * Set slug
      *
      * @param string $slug
-     *
      * @ORM\PreUpdate
      * @ORM\PrePersist
-     * @return CustomPages
+     * @return Versionnement
      */
-    public function setSlug()
+    public function setSlug($slug)
     {
         $caracs = array("¥" => "Y", "µ" => "u", "À" => "A", "Á" => "A",
             "Â" => "A", "Ã" => "A", "Ä" => "A", "Å" => "A",
@@ -136,7 +185,7 @@ class CustomPages
      *
      * @param string $content
      *
-     * @return CustomPages
+     * @return Versionnement
      */
     public function setContent($content)
     {
@@ -160,7 +209,7 @@ class CustomPages
      *
      * @param integer $categorie
      *
-     * @return CustomPages
+     * @return Versionnement
      */
     public function setCategorie($categorie)
     {
@@ -177,6 +226,54 @@ class CustomPages
     public function getCategorie()
     {
         return $this->categorie;
+    }
+
+    /**
+     * Set date
+     *
+     * @param \DateTime $date
+     *
+     * @return Versionnement
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    /**
+     * Get date
+     *
+     * @return \DateTime
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
+     * Set title
+     *
+     * @param string $title
+     *
+     * @return Versionnement
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 }
 

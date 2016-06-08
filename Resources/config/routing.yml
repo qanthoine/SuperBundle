@@ -5,18 +5,18 @@ super_admin:
     path:     /admin
     defaults: { _controller: SuperBundle:Admin:index }
 super_admin_add:
-    path:     /admin/add
+    path:     /admin/add/page
     defaults: { _controller: SuperBundle:Admin:add }
 super_admin_addcat:
-    path:     /admin/addcat
-    defaults: { _controller: SuperBundle:Admin:addcat }
+    path:     /admin/add/catagory
+    defaults: { _controller: SuperBundle:Admin:addcategory }
 super_admin_delete:
-    path:     /admin/delete/{id}
+    path:     /admin/delete/page/{id}
     defaults: { _controller: SuperBundle:Admin:delete }
     requirements:
         id: \d+
 super_admin_modify:
-    path:     /admin/modify/{id}
+    path:     /admin/modify/page/{id}
     defaults: { _controller: SuperBundle:Admin:modify }
     requirements:
         id: \d+
@@ -26,3 +26,22 @@ super_page:
 super_admin_seconde:
     path:     /admin/
     defaults: { _controller: SuperBundle:Admin:index }
+super_admin_category_delete:
+    path:     /admin/delete/category/{id}
+    defaults: { _controller: SuperBundle:Admin:deletecategory }
+    requirements:
+        id: \d+
+super_admin_category_modify:
+    path:     /admin/modify/category/{id}
+    defaults: { _controller: SuperBundle:Admin:modifycategory }
+    requirements:
+        id: \d+
+super_page_review:
+    path:     /admin/review/{id}
+    defaults: { _controller: SuperBundle:Admin:review }
+super_page_restore:
+    path:     /admin/restore/{id}
+    defaults: { _controller: SuperBundle:Admin:restore }
+super_page_delete:
+    path:     /admin/delete/version/{id}
+    defaults: { _controller: SuperBundle:Admin:deleteversion }

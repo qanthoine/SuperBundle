@@ -31,6 +31,23 @@
     </div>
     <br>
     <a href="{{ path('super_admin_add') }}"><input type="button" value="Create New Page"></a><br><br>
+    <h1>List of Category</h1>
+    <div class="list">
+        <table>
+            <tr>
+                <th>Name :</th>
+                <th>Slug :</th>
+                <th>Action :</th>
+            </tr>
+            {% for listCatagory in listCatagory %}
+                <tr>
+                    <td>{{ listCatagory.name }}</td>
+                    <td>{{ listCatagory.slug }}</td>
+                    <td><a href="{{ path('super_admin_category_modify', {'id': listCatagory.id } ) }}"><input type="button" value="Edit"></a> <a href="{{ path('super_admin_category_delete', {'id': listCatagory.id } ) }}"><input type="button" value="Delete"></a></td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
     <a href="{{ path('super_admin_addcat') }}"><input type="button" value="Create New Category"></a>
 {% endblock %}
 

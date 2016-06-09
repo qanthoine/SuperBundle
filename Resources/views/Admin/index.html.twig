@@ -1,6 +1,10 @@
 {% extends 'SuperBundle::adminpanel.html.twig' %}
 {% block title %}Custom Pages{% endblock %}
 {% block body %}
+    <div class="saves">
+        <p>{{ text }}</p>
+        You can modify this in app/config/parameters.yml
+    </div>
     <h1>List of Custom Pages</h1>
     {% for flashMessage in app.session.flashbag.get('notice') %}
         <div class="flash">

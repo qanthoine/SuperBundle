@@ -18,17 +18,26 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class AdminController extends Controller
 {
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $listPages = $em->getRepository('SuperBundle:CustomPages')->findAll();
         $listCatagory = $em->getRepository('SuperBundle:Categorie')->findAll();
-        return $this->render('SuperBundle:Admin:index.html.twig', array('listPages' => $listPages, 'listCatagory' => $listCatagory));
+        $option = $this->getParameter('saves');
+        if($option == true)
+        {
+            $text = "Versionning is ON";
+        }
+        else
+        {
+            $text = "Versionning is OFF";
+        }
+        return $this->render('SuperBundle:Admin:index.html.twig', array('listPages' => $listPages, 'listCatagory' => $listCatagory, 'text' => $text));
     }
     public function addAction(Request $request)
     {
         $page = new CustomPages();
-        $versionnement = new Versionnement();
+
         $formBuilder = $this->get('form.factory')->createBuilder(FormType::class, $page);
         $formBuilder
             ->add('title',TextType::class)
@@ -45,14 +54,18 @@ class AdminController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($page);
             $em->flush();
-            $versionnement->setTitle($page->getTitle());
-            $versionnement->setCategorie($page->getCategorie());
-            $versionnement->setContent($page->getContent());
-            $versionnement->setPageId($page->getId());
-            $versionnement->setType('Create');
-            var_dump($versionnement);
-            $em->persist($versionnement);
-            $em->flush();
+            $option = $this->getParameter('saves');
+            if($option == true)
+            {
+                $versionnement = new Versionnement();
+                $versionnement->setTitle($page->getTitle());
+                $versionnement->setCategorie($page->getCategorie());
+                $versionnement->setContent($page->getContent());
+                $versionnement->setPageId($page->getId());
+                $versionnement->setType('Create');
+                $em->persist($versionnement);
+                $em->flush();
+            }
             $request->getSession()->getFlashBag()->add('notice', 'The page has been successfully created !');
             return $this->redirect($this->generateUrl('super_admin'));
         }
@@ -80,7 +93,6 @@ class AdminController extends Controller
     }
     public function modifyAction($id, Request $request)
     {
-        $versionnement = new Versionnement();
         $em = $this->getDoctrine()->getManager();
         $pages = $em->getRepository('SuperBundle:CustomPages')->find($id);
         if(!$pages)
@@ -102,13 +114,18 @@ class AdminController extends Controller
         $form->handleRequest($request);
         if ($form->isValid()) {
             $em->flush();
-            $versionnement->setTitle($pages->getTitle());
-            $versionnement->setContent($pages->getContent());
-            $versionnement->setCategorie($pages->getCategorie());
-            $versionnement->setPageId($pages->getId());
-            $versionnement->setType('Edit');
-            $em->persist($versionnement);
-            $em->flush();
+            $option = $this->getParameter('saves');
+            if($option == true)
+            {
+                $versionnement = new Versionnement();
+                $versionnement->setTitle($pages->getTitle());
+                $versionnement->setCategorie($pages->getCategorie());
+                $versionnement->setContent($pages->getContent());
+                $versionnement->setPageId($pages->getId());
+                $versionnement->setType('Edit');
+                $em->persist($versionnement);
+                $em->flush();
+            }
             $request->getSession()->getFlashBag()->add('notice', 'The page has been successfully edited !');
             return $this->redirect($this->generateUrl('super_admin'));
         }
@@ -154,7 +171,6 @@ class AdminController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $new = $em->getRepository('SuperBundle:Versionnement')->find($id);
-        $versionnement = new Versionnement();
         $id_cpage = $new->getpageId();
         $old = $pages = $em->getRepository('SuperBundle:CustomPages')->find($id_cpage);
         if (!$old OR !$new)
@@ -166,13 +182,18 @@ class AdminController extends Controller
         $old->setCategorie($new->getCategorie());
         $em->persist($old);
         $em->flush();
-        $versionnement->setPageId($id_cpage);
-        $versionnement->setTitle($old->getTitle());
-        $versionnement->setContent($old->getContent());
-        $versionnement->setCategorie($old->getCategorie());
-        $versionnement->setType('Restore');
-        $em->persist($versionnement);
-        $em->flush();
+        $option = $this->getParameter('saves');
+        if($option == true)
+        {
+            $versionnement = new Versionnement();
+            $versionnement->setTitle($old->getTitle());
+            $versionnement->setCategorie($old->getCategorie());
+            $versionnement->setContent($old->getContent());
+            $versionnement->setPageId($old->getId());
+            $versionnement->setType('Restore');
+            $em->persist($versionnement);
+            $em->flush();
+        }
         $request->getSession()->getFlashBag()->add('notice', 'The page has been successfully restored !');
         $listPages = $em->getRepository('SuperBundle:CustomPages')->findAll();
         return $this->redirect($this->generateUrl('super_admin', array('listPages' => $listPages)));

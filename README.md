@@ -24,7 +24,7 @@ For use this bundle you need :
 <pre><code>php bin/console doctrine:schema:update --force</pre></code>
 - Install Asset for css (command).
 <pre><code>php bin/console assets:install --symlink</pre></code>
-- Add Access_control page for protect Admin panel (app/config/security.yml).
+- Add Access_control page for protect Admin panel and pages (app/config/security.yml).
 <pre><code>- { path: ^/admin, role: ROLE_ADMIN }</pre></code>
 <pre><code>- { path: ^/admin/, role: ROLE_ADMIN }</pre></code>
 <pre><code>- { path: ^/page/, role: IS_AUTHENTICATED_ANONYMOUSLY } #other param : ROLE_ADMIN or ROLE_USER</pre></code>

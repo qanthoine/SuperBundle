@@ -26,13 +26,13 @@ class AdminController extends Controller
         $option = $this->getParameter('saves');
         if($option == true)
         {
-            $text = "Versionning is ON";
+            $status = "ON";
         }
         else
         {
-            $text = "Versionning is OFF";
+            $status = "OFF";
         }
-        return $this->render('SuperBundle:Admin:index.html.twig', array('listPages' => $listPages, 'listCatagory' => $listCatagory, 'text' => $text));
+        return $this->render('SuperBundle:Admin:index.html.twig', array('listPages' => $listPages, 'listCatagory' => $listCatagory, 'status' => $status));
     }
     public function addAction(Request $request)
     {
@@ -86,10 +86,10 @@ class AdminController extends Controller
             $em->remove($version);
         }
         $em->flush();
-        $request->getSession()->getFlashBag()->add('notice', 'The page has been successfully deleted !');
+        $request->getSession()->getFlashBag()->add('notice', 'This page has been successfully deleted !');
         $listPages = $em->getRepository('SuperBundle:CustomPages')->findAll();
         //return $this->render("SuperBundle:Admin:delete.html.twig");
-        return $this->redirect($this->generateUrl('super_admin', array('listPages' => $listPages)));
+        return $this->redirect($this->generateUrl('super_admin'));
     }
     public function modifyAction($id, Request $request)
     {
@@ -126,7 +126,7 @@ class AdminController extends Controller
                 $em->persist($versionnement);
                 $em->flush();
             }
-            $request->getSession()->getFlashBag()->add('notice', 'The page has been successfully edited !');
+            $request->getSession()->getFlashBag()->add('notice', 'This page has been successfully edited !');
             return $this->redirect($this->generateUrl('super_admin'));
         }
         return $this->render('SuperBundle:Admin:modify.html.twig', array('form' => $form->createView(),'id' => $id, 'pageinfo' => $pages, 'version' => $version_load));
@@ -194,9 +194,8 @@ class AdminController extends Controller
             $em->persist($versionnement);
             $em->flush();
         }
-        $request->getSession()->getFlashBag()->add('notice', 'The page has been successfully restored !');
-        $listPages = $em->getRepository('SuperBundle:CustomPages')->findAll();
-        return $this->redirect($this->generateUrl('super_admin', array('listPages' => $listPages)));
+        $request->getSession()->getFlashBag()->add('notice', 'This page has been successfully restored !');
+        return $this->redirect($this->generateUrl('super_admin'));
     }
     public function deleteversionAction($id, Request $request)
     {
@@ -209,8 +208,39 @@ class AdminController extends Controller
         $em->remove($pages);
         $em->flush();
         $request->getSession()->getFlashBag()->add('notice', 'This Save has been successfully deleted !');
-        $listPages = $em->getRepository('SuperBundle:CustomPages')->findAll();
-        return $this->redirect($this->generateUrl('super_admin', array('listPages' => $listPages)));
+        return $this->redirect($this->generateUrl('super_admin'));
 
+    }
+    public function modifycategoryAction($id, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $category = $em->getRepository('SuperBundle:Categorie')->find($id);
+        $formBuilder = $this->get('form.factory')->createBuilder(FormType::class, $category);
+        $formBuilder
+            ->add('name',TextType::class)
+            ->add('save', SubmitType::class);
+        $form = $formBuilder->getForm();
+        $form->handleRequest($request);
+        if ($form->isValid())
+        {
+            $em = $this->getDoctrine()->getManager();
+            $em->flush();
+            $request->getSession()->getFlashBag()->add('notice', 'This category has been successfully edited !');
+            return $this->redirect($this->generateUrl('super_admin'));
+        }
+        return $this->render('SuperBundle:Admin:modifycategorie.html.twig', array('form' => $form->createView(),'category_name' => $category));
+    }
+    public function deletecategoryAction($id, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $category = $em->getRepository('SuperBundle:categorie')->find($id);
+        if(!$category)
+        {
+            throw new NotFoundHttpException("Page not found");
+        }
+        $em->remove($category);
+        $em->flush();
+        $request->getSession()->getFlashBag()->add('notice', 'This category has been successfully deleted !');
+        return $this->redirect($this->generateUrl('super_admin'));
     }
 }

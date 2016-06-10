@@ -1,0 +1,22 @@
+{% extends 'SuperBundle::adminpanel.html.twig' %}
+{% block title %}New Category{% endblock %}
+{% block body %}
+    <h1>Edit Category</h1>
+    <div class="formulaire">
+        {{ form_start(form) }}
+        <div>
+            <div>
+                {{ form_label(form.name) }}
+            </div>
+            <div class="title_input">
+                {{ form_errors(form.name) }}
+                {{ form_widget(form.name, { 'attr': { 'maxlength' : 40, 'size' : 40, 'value': category_name.name } })  }}
+            </div>
+        </div>
+        <div>
+            <br>
+            {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'} }) }} <input type="button" onclick='window.location.reload(false)' value="Restore"/>
+        </div>
+        {{ form_end(form)}}
+    </div>
+{% endblock %}

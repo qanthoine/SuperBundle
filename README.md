@@ -4,8 +4,7 @@ Projet pour Formation PHP / Symfony
 #Presentation :
 SuperBundle is a Bundle for Symfony (3.0.6), it create customs pages by an admin panel.
 Pages are accessible by this route "YourDomain/page/{slug of the title}" and the Admin Panel by this route "YourDomain/admin" but you need an account with administrator role (look Requirement). This Bundle use TinyMCE for add and edit page.
-<pre><code>
-- V2: 
+<pre><code>- V2: 
 Now you can create Category, saves page's modifications (can turn off/on by parameters).<br>
 URL as been changed for access in your page : YourDomain/page/{slug of the category}/{slug of the title}.<br>
 You can moderate access to page with Role in access_control.<br>

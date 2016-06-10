@@ -1,10 +1,6 @@
 {% extends 'SuperBundle::adminpanel.html.twig' %}
 {% block title %}Custom Pages{% endblock %}
 {% block body %}
-    <div class="saves">
-        <p>{{ text }}</p>
-        You can modify this in app/config/parameters.yml
-    </div>
     <h1>List of Custom Pages</h1>
     {% for flashMessage in app.session.flashbag.get('notice') %}
         <div class="flash">
@@ -29,12 +25,14 @@
         {% endfor %}
         </table>
     </div>
-    <div class="warning">
-        WARNING !<br>
-        Press on the delete button, it will not be possible to go back
-    </div>
     <br>
     <a href="{{ path('super_admin_add') }}"><input type="button" value="Create New Page"></a><br><br>
+    <div class="warning">
+        <p>WARNING !</p>
+        <li>Press on the delete button, it will not be possible to go back</li>
+        <p></p>
+        <li>Versionning system is {{ status }}. You can modify this in app/config/parameters.yml</li>
+    </div>
     <h1>List of Category</h1>
     <div class="list">
         <table>

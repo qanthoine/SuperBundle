@@ -17,9 +17,23 @@ body
     background-color: #E0F2F7;
     text-align: center;
 }
-.flash
+.green
 {
     color: darkgreen;
+    border: 2px solid black;
+    font-size: 20px;
+    font-weight: bold;
+    max-width: 40%;
+    padding: 5px;
+    margin: 15px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px ;
+    margin-bottom: 20px ;
+}
+.red
+{
+    color: darkred;
     border: 2px solid black;
     font-size: 20px;
     font-weight: bold;

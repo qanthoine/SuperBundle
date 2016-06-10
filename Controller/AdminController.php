@@ -34,43 +34,6 @@ class AdminController extends Controller
         }
         return $this->render('SuperBundle:Admin:index.html.twig', array('listPages' => $listPages, 'listCatagory' => $listCatagory, 'status' => $status));
     }
-    public function addAction(Request $request)
-    {
-        $page = new CustomPages();
-
-        $formBuilder = $this->get('form.factory')->createBuilder(FormType::class, $page);
-        $formBuilder
-            ->add('title',TextType::class)
-            ->add('content',TextareaType::class, array("required"=>false))
-            ->add('categorie', EntityType::class, array(
-                'class'        => 'SuperBundle:Categorie',
-                'choice_label' => 'name',
-            ))
-            ->add('save', SubmitType::class);
-        $form = $formBuilder->getForm();
-        $form->handleRequest($request);
-        if ($form->isValid())
-        {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($page);
-            $em->flush();
-            $option = $this->getParameter('saves');
-            if($option == true)
-            {
-                $versionnement = new Versionnement();
-                $versionnement->setTitle($page->getTitle());
-                $versionnement->setCategorie($page->getCategorie());
-                $versionnement->setContent($page->getContent());
-                $versionnement->setPageId($page->getId());
-                $versionnement->setType('Create');
-                $em->persist($versionnement);
-                $em->flush();
-            }
-            $request->getSession()->getFlashBag()->add('notice', 'The page has been successfully created !');
-            return $this->redirect($this->generateUrl('super_admin'));
-        }
-        return $this->render('SuperBundle:Admin:add.html.twig', array('form' => $form->createView()));
-    }
     public function deleteAction($id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -90,66 +53,6 @@ class AdminController extends Controller
         $listPages = $em->getRepository('SuperBundle:CustomPages')->findAll();
         //return $this->render("SuperBundle:Admin:delete.html.twig");
         return $this->redirect($this->generateUrl('super_admin'));
-    }
-    public function modifyAction($id, Request $request)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $pages = $em->getRepository('SuperBundle:CustomPages')->find($id);
-        if(!$pages)
-        {
-            throw new NotFoundHttpException("Page not found");
-        }
-        $page_id = $id;
-        $version_load = $em->getRepository('SuperBundle:Versionnement')->findBy(array('pageId' => $page_id), array('date' => 'desc'));
-        $formBuilder = $this->get('form.factory')->createBuilder(FormType::class, $pages);
-        $formBuilder
-            ->add('title',TextType::class)
-            ->add('content',TextareaType::class, array("required"=>false))
-            ->add('categorie', EntityType::class, array(
-                'class'        => 'SuperBundle:Categorie',
-                'choice_label' => 'name',
-            ))
-            ->add('save', SubmitType::class);
-        $form = $formBuilder->getForm();
-        $form->handleRequest($request);
-        if ($form->isValid()) {
-            $em->flush();
-            $option = $this->getParameter('saves');
-            if($option == true)
-            {
-                $versionnement = new Versionnement();
-                $versionnement->setTitle($pages->getTitle());
-                $versionnement->setCategorie($pages->getCategorie());
-                $versionnement->setContent($pages->getContent());
-                $versionnement->setPageId($pages->getId());
-                $versionnement->setType('Edit');
-                $em->persist($versionnement);
-                $em->flush();
-            }
-            $request->getSession()->getFlashBag()->add('notice', 'This page has been successfully edited !');
-            return $this->redirect($this->generateUrl('super_admin'));
-        }
-        return $this->render('SuperBundle:Admin:modify.html.twig', array('form' => $form->createView(),'id' => $id, 'pageinfo' => $pages, 'version' => $version_load));
-    }
-    public function addcategoryAction(Request $request)
-    {
-        $categorie = new Categorie();
-        $formBuilder = $this->get('form.factory')->createBuilder(FormType::class, $categorie);
-        $formBuilder
-            ->add('name',TextType::class)
-            ->add('save', SubmitType::class);
-        $form = $formBuilder->getForm();
-        $form->handleRequest($request);
-        if ($form->isValid())
-        {
-            $em = $this->getDoctrine()->getManager();
-
-            $em->persist($categorie);
-            $em->flush();
-            $request->getSession()->getFlashBag()->add('notice', 'The category has been successfully created !');
-            return $this->redirect($this->generateUrl('super_admin'));
-        }
-        return $this->render('SuperBundle:Admin:addcategorie.html.twig', array('form' => $form->createView()));
     }
     public function reviewAction($id)
     {
@@ -211,25 +114,6 @@ class AdminController extends Controller
         return $this->redirect($this->generateUrl('super_admin'));
 
     }
-    public function modifycategoryAction($id, Request $request)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $category = $em->getRepository('SuperBundle:Categorie')->find($id);
-        $formBuilder = $this->get('form.factory')->createBuilder(FormType::class, $category);
-        $formBuilder
-            ->add('name',TextType::class)
-            ->add('save', SubmitType::class);
-        $form = $formBuilder->getForm();
-        $form->handleRequest($request);
-        if ($form->isValid())
-        {
-            $em = $this->getDoctrine()->getManager();
-            $em->flush();
-            $request->getSession()->getFlashBag()->add('notice', 'This category has been successfully edited !');
-            return $this->redirect($this->generateUrl('super_admin'));
-        }
-        return $this->render('SuperBundle:Admin:modifycategorie.html.twig', array('form' => $form->createView(),'category_name' => $category));
-    }
     public function deletecategoryAction($id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -242,5 +126,98 @@ class AdminController extends Controller
         $em->flush();
         $request->getSession()->getFlashBag()->add('notice', 'This category has been successfully deleted !');
         return $this->redirect($this->generateUrl('super_admin'));
+    }
+    public function pageactionAction(Request $request, $id = null)
+    {
+        $em = $this->getDoctrine()->getManager();
+        if (is_null($id)) {
+            $page = new CustomPages();
+            $type = "Create";
+            $notice = "The page has been successfully created !";
+            $page_title = "New Page";
+            $version_load = null;
+
+        }else{
+            $page = $em->getRepository('SuperBundle:CustomPages')->find($id);
+            if(!$page)
+            {
+                throw new NotFoundHttpException("Page not found");
+            }
+            $version_load = $em->getRepository('SuperBundle:Versionnement')->findBy(array('pageId' => $id), array('date' => 'desc'));
+            $type = "Edit";
+            $notice = "The page has been successfully edited !";
+            $page_title = "Edit Page";
+        }
+
+        $formBuilder = $this->get('form.factory')->createBuilder(FormType::class, $page);
+        $formBuilder
+            ->add('title',TextType::class)
+            ->add('content',TextareaType::class, array("required"=>false))
+            ->add('categorie', EntityType::class, array(
+                'class'        => 'SuperBundle:Categorie',
+                'choice_label' => 'name',
+            ))
+            ->add('save', SubmitType::class);
+        $form = $formBuilder->getForm();
+        $form->handleRequest($request);
+        if ($form->isValid())
+        {
+            $em->persist($page);
+            $em->flush();
+            $option = $this->getParameter('saves');
+            if($option == true)
+            {
+                $versionnement = new Versionnement();
+                $versionnement->setTitle($page->getTitle());
+                $versionnement->setCategorie($page->getCategorie());
+                $versionnement->setContent($page->getContent());
+                $versionnement->setPageId($page->getId());
+                $versionnement->setType($type);
+                $em->persist($versionnement);
+                $em->flush();
+            }
+            $request->getSession()->getFlashBag()->add('notice', $notice);
+            return $this->redirect($this->generateUrl('super_admin'));
+        }
+        return $return = $this->render('SuperBundle:Admin:add.html.twig', array(
+            'form' => $form->createView(),
+            'pageinfo' => $page,
+            'version' => $version_load,
+            'page_title' => $page_title,
+            'type' => $type));
+    }
+    public function categoryactionAction(Request $request, $id = null)
+    {
+        $em = $this->getDoctrine()->getManager();
+        if (is_null($id)) {
+            $category = new Categorie();
+            $notice = "The category has been successfully created !";
+            $page_title = "New Category";
+
+        }else{
+            $category = $em->getRepository('SuperBundle:Categorie')->find($id);
+            if(!$category)
+            {
+                throw new NotFoundHttpException("Page not found");
+            }
+            $notice = "This category has been successfully edited !";
+            $page_title = "Edit Category";
+        }
+        $formBuilder = $this->get('form.factory')->createBuilder(FormType::class, $category);
+        $formBuilder
+            ->add('name',TextType::class)
+            ->add('save', SubmitType::class);
+        $form = $formBuilder->getForm();
+        $form->handleRequest($request);
+        if ($form->isValid())
+        {
+            $em = $this->getDoctrine()->getManager();
+
+            $em->persist($category);
+            $em->flush();
+            $request->getSession()->getFlashBag()->add('notice', $notice);
+            return $this->redirect($this->generateUrl('super_admin'));
+        }
+        return $this->render('SuperBundle:Admin:addcategorie.html.twig', array('form' => $form->createView(), 'page_title' => $page_title, 'category' => $category));
     }
 }

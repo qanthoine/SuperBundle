@@ -4,38 +4,41 @@ super_homepage:
 super_admin:
     path:     /admin
     defaults: { _controller: SuperBundle:Admin:index }
+super_admin_seconde:
+    path:     /admin/
+    defaults: { _controller: SuperBundle:Admin:index }
+
+# Gestion of Page (Create/Modify/Delete)
 super_admin_add:
     path:     /admin/add/page
-    defaults: { _controller: SuperBundle:Admin:add }
-super_admin_addcat:
-    path:     /admin/add/catagory
-    defaults: { _controller: SuperBundle:Admin:addcategory }
+    defaults: { _controller: SuperBundle:Admin:pageaction }
+super_admin_modify:
+    path:     /admin/modify/page/{id}
+    defaults: { _controller: SuperBundle:Admin:pageaction }
+    requirements:
+        id: \d+
 super_admin_delete:
     path:     /admin/delete/page/{id}
     defaults: { _controller: SuperBundle:Admin:delete }
     requirements:
         id: \d+
-super_admin_modify:
-    path:     /admin/modify/page/{id}
-    defaults: { _controller: SuperBundle:Admin:modify }
+
+# Gestion of Category (Create/Modify/Delete)
+super_admin_addcat:
+    path:     /admin/add/catagory
+    defaults: { _controller: SuperBundle:Admin:categoryaction }
+super_admin_category_modify:
+    path:     /admin/modify/category/{id}
+    defaults: { _controller: SuperBundle:Admin:categoryaction }
     requirements:
         id: \d+
-super_page:
-    path:     /page/{categorie}/{slug}
-    defaults: { _controller: SuperBundle:Pages:index }
-super_admin_seconde:
-    path:     /admin/
-    defaults: { _controller: SuperBundle:Admin:index }
 super_admin_category_delete:
     path:     /admin/delete/category/{id}
     defaults: { _controller: SuperBundle:Admin:deletecategory }
     requirements:
         id: \d+
-super_admin_category_modify:
-    path:     /admin/modify/category/{id}
-    defaults: { _controller: SuperBundle:Admin:modifycategory }
-    requirements:
-        id: \d+
+
+# Gestion of Versions (Review/Restore/Delete)
 super_page_review:
     path:     /admin/review/{id}
     defaults: { _controller: SuperBundle:Admin:review }
@@ -45,3 +48,8 @@ super_page_restore:
 super_page_delete:
     path:     /admin/delete/version/{id}
     defaults: { _controller: SuperBundle:Admin:deleteversion }
+
+# Gestion of pages
+super_page:
+    path:     /page/{categorie}/{slug}
+    defaults: { _controller: SuperBundle:Pages:index }

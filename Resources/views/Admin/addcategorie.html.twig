@@ -1,7 +1,7 @@
 {% extends 'SuperBundle::adminpanel.html.twig' %}
-{% block title %}New Category{% endblock %}
+{% block title %}{{ page_title }}{% endblock %}
 {% block body %}
-    <h1>New Category</h1>
+    <h1>{{ page_title }}</h1>
     <div class="formulaire">
         {{ form_start(form) }}
         <div>
@@ -10,7 +10,7 @@
             </div>
             <div class="title_input">
                 {{ form_errors(form.name) }}
-                {{ form_widget(form.name, { 'attr': { 'maxlength' : 40, 'size' : 40 } })  }}
+                {{ form_widget(form.name, { 'attr': { 'maxlength' : 40, 'size' : 40, 'value': category.name } })  }}
             </div>
         </div>
         <div>

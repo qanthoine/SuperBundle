@@ -3,7 +3,12 @@
 {% block body %}
     <h1>List of Custom Pages</h1>
     {% for flashMessage in app.session.flashbag.get('notice') %}
-        <div class="flash">
+        <div class="green">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+    {% for flashMessage in app.session.flashbag.get('error') %}
+        <div class="red">
             {{ flashMessage }}
         </div>
     {% endfor %}

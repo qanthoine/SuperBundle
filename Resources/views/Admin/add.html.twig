@@ -1,7 +1,7 @@
 {% extends 'SuperBundle::adminpanel.html.twig' %}
-{% block title %}New Page{% endblock %}
+{% block title %}{{ page_title }}{% endblock %}
 {% block body %}
-    <h1>New Page</h1>
+    <h1>{{ page_title }}</h1>
     <div class="formulaire">
         {{ form_start(form) }}
         <div>
@@ -10,7 +10,7 @@
             </div>
             <div class="title_input">
                 {{ form_errors(form.title) }}
-                {{ form_widget(form.title, { 'attr': { 'maxlength' : 30, 'size' : 40 } })  }}
+                {{ form_widget(form.title, { 'attr': { 'maxlength' : 30, 'size' : 40, 'value': pageinfo.title } })  }}
             </div>
         </div>
         <div>
@@ -37,6 +37,31 @@
         </div>
         {{ form_end(form)}}
     </div>
+    {% if type == "Edit" %}
+        <h1>Versionning</h1>
+        <div class="list">
+            <table>
+                <tr>
+                    <th>Title :</th>
+                    <th>Slug :</th>
+                    <th>Category :</th>
+                    <th>Date :</th>
+                    <th>Type :</th>
+                    <th>Action :</th>
+                </tr>
+                {% for version in version %}
+                    <tr>
+                        <td>{{ version.title }}</td>
+                        <td>{{ version.slug }}</td>
+                        <td>{{ version.categorie.name }}</td>
+                        <td>{{ version.date|date("d/m/Y") }}</td>
+                        <td>{{ version.type }}</td>
+                        <td><a href="{{ path('super_page_review', {'id': version.id} ) }}"><input type="button" value="Review"></a> <a href="{{ path('super_page_restore', {'id': version.id } ) }}"><input type="button" value="Restore"></a> <a href="{{ path('super_page_delete', {'id': version.id} ) }}"><input type="button" value="Delete"></a></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    {% endif %}
 {% endblock %}
 {% block javascripts %}
     <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>

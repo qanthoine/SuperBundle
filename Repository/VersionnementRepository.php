@@ -10,4 +10,5 @@ namespace SuperBundle\Repository;
  */
 class VersionnementRepository extends \Doctrine\ORM\EntityRepository
 {
+    
 }

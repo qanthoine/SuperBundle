@@ -20,7 +20,6 @@ class CustomPages
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\ManyToOne(targetEntity="SuperBundle\Entity\Versionnement")
      */
     private $id;
 
@@ -46,7 +45,7 @@ class CustomPages
     private $content;
     /**
      * @var int
-     * @ORM\ManyToOne(targetEntity="SuperBundle\Entity\Categorie", cascade={"persist"}))
+     * @ORM\ManyToOne(targetEntity="SuperBundle\Entity\Categorie", cascade={"persist"})
      */
     private $categorie;
 

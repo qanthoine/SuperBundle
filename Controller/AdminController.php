@@ -38,8 +38,7 @@ class AdminController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $pages = $em->getRepository('SuperBundle:CustomPages')->find($id);
-        $page_id = $id;
-        $versionnement = $em->getRepository('SuperBundle:Versionnement')->findBy(array('pageId' => $page_id));
+        $versionnement = $em->getRepository('SuperBundle:Versionnement')->findBy(array('pageId' => $id));
         if(!$pages)
         {
             throw new NotFoundHttpException("Page not found");
@@ -50,8 +49,6 @@ class AdminController extends Controller
         }
         $em->flush();
         $request->getSession()->getFlashBag()->add('notice', 'This page has been successfully deleted !');
-        $listPages = $em->getRepository('SuperBundle:CustomPages')->findAll();
-        //return $this->render("SuperBundle:Admin:delete.html.twig");
         return $this->redirect($this->generateUrl('super_admin'));
     }
     public function reviewAction($id)
@@ -113,19 +110,6 @@ class AdminController extends Controller
         $request->getSession()->getFlashBag()->add('notice', 'This Save has been successfully deleted !');
         return $this->redirect($this->generateUrl('super_admin'));
 
-    }
-    public function deletecategoryAction($id, Request $request)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $category = $em->getRepository('SuperBundle:categorie')->find($id);
-        if(!$category)
-        {
-            throw new NotFoundHttpException("Page not found");
-        }
-        $em->remove($category);
-        $em->flush();
-        $request->getSession()->getFlashBag()->add('notice', 'This category has been successfully deleted !');
-        return $this->redirect($this->generateUrl('super_admin'));
     }
     public function pageactionAction(Request $request, $id = null)
     {

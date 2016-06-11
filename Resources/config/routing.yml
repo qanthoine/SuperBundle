@@ -32,11 +32,6 @@ super_admin_category_modify:
     defaults: { _controller: SuperBundle:Admin:categoryaction }
     requirements:
         id: \d+
-super_admin_category_delete:
-    path:     /admin/delete/category/{id}
-    defaults: { _controller: SuperBundle:Admin:deletecategory }
-    requirements:
-        id: \d+
 
 # Gestion of Versions (Review/Restore/Delete)
 super_page_review:

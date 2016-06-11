@@ -50,7 +50,7 @@
                 <tr>
                     <td>{{ listCatagory.name }}</td>
                     <td>{{ listCatagory.slug }}</td>
-                    <td><a href="{{ path('super_admin_category_modify', {'id': listCatagory.id } ) }}"><input type="button" value="Edit"></a> <a href="{{ path('super_admin_category_delete', {'id': listCatagory.id } ) }}"><input type="button" value="Delete"></a></td>
+                    <td><a href="{{ path('super_admin_category_modify', {'id': listCatagory.id } ) }}"><input type="button" value="Edit"></a></td>
                 </tr>
             {% endfor %}
         </table>

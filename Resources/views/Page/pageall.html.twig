@@ -1,0 +1,8 @@
+{% extends 'SuperBundle::pagespanel.html.twig' %}
+{% block title %}Page's list{% endblock %}
+{% block body %}
+    <center><h1>Page's list</h1></center>
+    {% for pages in pages %}
+        <p><a href="{{ path('super_page', {'categorie' : pages.categorie.slug, 'slug' : pages.slug}) }}">{{ pages.title }}</a></p>
+    {% endfor %}
+{% endblock %}

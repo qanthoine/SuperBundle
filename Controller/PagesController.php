@@ -26,4 +26,17 @@ class PagesController extends Controller
 			"SuperBundle:Page:page.html.twig",
 			array('slug' => $slug, 'pages' => $pages, 'categorie' => $categorie));
     }
+
+	public function allAction()
+	{
+		$repository = $this
+			->getDoctrine()
+			->getManager()
+			->getRepository('SuperBundle:CustomPages');
+		$pages = $repository->findAll();
+
+		return $this->render(
+			"SuperBundle:Page:pageall.html.twig",
+			array('pages' => $pages));
+	}
 }

@@ -7,6 +7,7 @@ Pages are accessible by this route "YourDomain/page/{slug of the title}" and the
 <pre><code>- V2: 
 Now you can create Category, saves page's modifications (can turn off/on by parameters).<br>
 URL as been changed for access in your page : YourDomain/page/{slug of the category}/{slug of the title}.<br>
+You can look all pages in "YourDomain/page/"<br>
 You can moderate access to page with Role in access_control.<br>
 </pre></code>
 #Requierement :
@@ -18,7 +19,7 @@ For use this bundle you need :
 
 #Configuration of Bundle :
 - Download the Bundle and move (or unzip) in the Vendor directory of your project.
-- Add the route in your app/AppKernel (in public fonction registerBundles) :
+- Add the route in your app/AppKernel.php (in public fonction registerBundles) :
 <pre><code>new SuperBundle\SuperBundle(),</pre></code>
 - Update Doctrine schema (command).
 <pre><code>php bin/console doctrine:schema:update --force</pre></code>

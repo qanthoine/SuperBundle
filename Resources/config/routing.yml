@@ -48,3 +48,6 @@ super_page_delete:
 super_page:
     path:     /page/{categorie}/{slug}
     defaults: { _controller: SuperBundle:Pages:index }
+super_page_list:
+    path:     /page/
+    defaults: { _controller: SuperBundle:Pages:all }

@@ -19,6 +19,10 @@ class Categorie
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\ManyToOne(targetEntity="SuperBundle\Entity\CustomPages", cascade={"persist"}))
+     * @ORM\JoinColumn(name="categorie_f", referencedColumnName="categorie", onDelete="SET NULL")
+     * @ORM\ManyToOne(targetEntity="SuperBundle\Entity\Versionnement", cascade={"persist"}))
+     * @ORM\JoinColumn(name="categorie_s", referencedColumnName="categorie", onDelete="SET NULL")
 
      */
     private $id;
